@@ -39,6 +39,12 @@ Default: `[]`
 RGB colors to exclude when counting colors.<br>
 For example to exclude white and black use: `[ 'rgb(255,255,255)', 'rgb(0,0,0)' ]`
 
+#### `speedUp`
+Type: `int`
+Default: `1`
+
+Speeds up processing at some cost to precision. It's recommended to set this to a value between 1 and 10. At 10 you'll effectively have scaled the image down tenfold before the image is analyzed.
+
 #### `success`
 Type: `function`
 Default: `undefined`
@@ -68,6 +74,9 @@ RGBaster.colors(img, {
     // don't count white
     exclude: [ 'rgb(255,255,255)' ],
 
+    // reduce pixels to analyze by a factor of 4
+    speedUp: 4
+
     // do something when done
     success: function(payload){
         console.log('Dominant color:', payload.dominant);
@@ -88,11 +97,11 @@ rgbaster.js depends on the following browser functionality:
 Check the linked resources above to determine current level of browser support.
 
 
-Author
+Authors
 -------
-| ![twitter/brianmgonzalez](http://gravatar.com/avatar/f6363fe1d9aadb1c3f07ba7867f0e854?s=70](http://twitter.com/brianmgonzalez "Follow @brianmgonzalez on Twitter") |
-|---|
-| [Brian Gonzalez](http://briangonzalez.org) |
+| ![twitter/brianmgonzalez](http://gravatar.com/avatar/f6363fe1d9aadb1c3f07ba7867f0e854?s=70](http://twitter.com/brianmgonzalez "Follow @brianmgonzalez on Twitter") | ![J for Jodocus](https://avatars1.githubusercontent.com/u/557102?s=70)
+|---|---|
+| [Brian Gonzalez](http://briangonzalez.org) | [Alfred J Wack](https://github.com/AlfredJKwack)
 
 About
 -----

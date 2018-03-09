@@ -10,10 +10,13 @@
     return canvas.getContext('2d');
   };
 
-  var getImageData = function(img, loaded){
+  var getImageData = function(img, speedUp, loaded){
 
     var imgObj = new Image();
     var imgSrc = img.src || img;
+    var imgScale = speedUp || 1;
+
+    imgScale = (imgScale < 1 || isNaN(imgScale)) ? 1 : imgScale;
 
     // Can't set cross origin to be anonymous for data url's
     // https://github.com/mrdoob/three.js/issues/1305
@@ -21,10 +24,14 @@
       imgObj.crossOrigin = "Anonymous";
 
     imgObj.onload = function(){
-      var context = getContext(imgObj.width, imgObj.height);
-      context.drawImage(imgObj, 0, 0);
 
-      var imageData = context.getImageData(0, 0, imgObj.width, imgObj.height);
+      var imgW = imgObj.width / imgScale;
+      var imgH = imgObj.height / imgScale;
+
+      var context = getContext(imgW, imgH);
+      context.drawImage(imgObj, 0, 0, imgW, imgH);
+
+      var imageData = context.getImageData(0, 0, imgW, imgH);
       loaded && loaded(imageData.data);
     };
 
@@ -68,9 +75,10 @@
 
     opts = opts || {};
     var exclude = opts.exclude || [ ], // for example, to exclude white and black:  [ '0,0,0', '255,255,255' ]
-        paletteSize = opts.paletteSize || PALETTESIZE;
+        paletteSize = opts.paletteSize || PALETTESIZE,
+        speedUp = opts.speedUp || 1;
 
-    getImageData(img, function(data){
+    getImageData(img, speedUp, function(data){
 
               var colorCounts   = {},
                   rgbString     = '',

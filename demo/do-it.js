@@ -2,6 +2,7 @@ function onload(){
   var img = document.getElementById('image');
   var colors = RGBaster.colors(img, {
     paletteSize: 30,
+    speedUp: 8,
     success: function(colors){
       img.style.borderColor = colors.palette[0];
 
