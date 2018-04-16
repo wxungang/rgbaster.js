@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <script type="text/javascript" src="https://static.95516.com/static/help/js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="./rgbaster.js"></script>
+    <style type="text/css">
+        .back {
+            width: 200px;
+            height: 100px;
+            border-radius: 10px;
+            margin: 50px auto;
+            float: left;
+        }
+
+        .logo {
+            position: relative;
+            float: left;
+            width: 70px;
+            height: 70px;
+            margin-left: -125px;
+            margin-top: 75px;
+        }
+
+        .main{
+            margin-left: 15px;
+            margin-top: 50px;
+            width: 100px;
+            height:100px;
+            float: left;
+        }
+
+    </style>
+</head>
+<body>
+<div id="test" class="back">
+</div>
+<div class="logo">
+    <img id="imgDemo" src="./03060000.png" alt="将src替换成想测试的图片名称！">
+</div>
+
+<div id="main" class="main">
+    获取的主色
+</div>
+
+<script type="text/javascript">
+    var img = document.getElementById('imgDemo');
+
+    RGBaster.colors(img, {
+        exclude: ['rgb(255,255,255)'],
+        success: function (payload) {
+            // payload.dominant是主色，RGB形式表示
+            // payload.secondary是次色，RGB形式表示
+            // payload.palette是调色板，含多个主要颜色，数组
+            console.log(payload.dominant);
+            console.log(payload.secondary);
+            console.log(payload.palette);
+
+            $("#test").css("background-color", payload.dominant);
+            $("#test").css("opacity", "0.5");
+
+            $("#main").css("background-color", payload.dominant);
+        }
+    });
+</script>
+
+</body>
+</html>
