@@ -87,6 +87,11 @@ rgbaster.js depends on the following browser functionality:
 
 Check the linked resources above to determine current level of browser support.
 
+## problems
+> 去背景问题。背景色识别和模糊匹配的问题（非纯色背景问题）
+
+> 30%纯色 和 60% 渐变色问题。 需要做平滑处理；但是计算量很大！
+
 
 Author
 -------
