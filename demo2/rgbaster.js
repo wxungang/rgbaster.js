@@ -93,7 +93,7 @@
             _fmtImgData[_y][_x] = _rgbString.join(",");
 
         }
-        console.log(_fmtImgData);
+        //console.log(_fmtImgData);
         return _fmtImgData;
     }
 

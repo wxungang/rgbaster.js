@@ -96,7 +96,7 @@
 
             // reader onload start
             reader.onload = function (e) {
-                console.log(e);
+//                console.log(e);
                 document.getElementById('imgDemo').src = e.target.result;
 
                 getColor();
@@ -116,9 +116,9 @@
                 // payload.dominant是主色，RGB形式表示
                 // payload.secondary是次色，RGB形式表示
                 // payload.palette是调色板，含多个主要颜色，数组
-                console.log(payload.dominant);
-                console.log(payload.secondary);
-                console.log(payload.palette);
+//                console.log(payload.dominant);
+//                console.log(payload.secondary);
+//                console.log(payload.palette);
 
                 // $("#logo").css("background-color", makeRGB(payload.dominant + ',0.1'));
                 document.getElementById('logo').style.backgroundColor = makeRGB(payload.dominant + ',0.1');
@@ -126,7 +126,6 @@
                 let _htmlDom = '';
                 //foreach
                 for (let index in payload.palette) {
-                    console.log(index);
                     _htmlDom += `<div class="colorItem" style="background-color: rgba(${payload.palette[index]})"> ${index} </div>`
                 }
 
