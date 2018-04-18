@@ -4,6 +4,10 @@
     <script type="text/javascript" src="https://static.95516.com/static/help/js/jquery-1.7.2.min.js"></script>
     <script type="text/javascript" src="./rgbaster.js"></script>
     <style type="text/css">
+        * {
+            padding: 0;
+            margin: 0;
+        }
 
         header {
             text-align: center;
@@ -11,7 +15,7 @@
         }
 
         .file {
-
+            display: none;
         }
 
         .back {
@@ -23,10 +27,18 @@
             margin: 10% 20px;
         }
 
-        .main,.secondary,.third {
+        .main, .secondary, .third {
             height: 200px;
             width: 120px;
             float: left;
+        }
+
+        .colorItem {
+            float: left;
+            width: 15%;
+            height: 100px;
+            margin-left: 1.5%;
+            margin-top: 15px;
         }
 
     </style>
@@ -39,50 +51,22 @@
     <label class="fileBtn" for="file" title="JPG,GIF,PNG">请选择图片</label>
 </div>
 
-<div id="test" class="back">
-</div>
 <div class="logo" id="logo">
     <img id="imgDemo" src="./华润苏果.jpg" alt="将src替换成想测试的图片名称！">
 </div>
 
-<div id="main" class="main">
-    获取的主色
+<div class="colors">
+    <p>主要色调顺序</p>
+    <div id="colorLists"></div>
 </div>
-<div id="secondary" class="secondary">
-    获取的secondary色
-</div>
-<div id="third" class="third">
-    获取的third色
-</div>
+
 
 <script type="text/javascript">
-    var img = document.getElementById('imgDemo');
+    var imgDom = document.getElementById('imgDemo');
 
-    var makeRGB = function (name) {
-        return ['rgb(', name, ')'].join('');
-    };
-
-    RGBaster.colors(img, {
-        exclude: [],
-        success: function (payload) {
-            // payload.dominant是主色，RGB形式表示
-            // payload.secondary是次色，RGB形式表示
-            // payload.palette是调色板，含多个主要颜色，数组
-            console.log(payload.dominant);
-            console.log(payload.secondary);
-            console.log(payload.palette);
-
-            $("#logo").css("background-color", makeRGB(payload.dominant + ',0.1'));
-//            $("#logo").css("opacity", "0.1");
-
-            $("#main").css("background-color", makeRGB(payload.dominant));
-            $("#secondary").css("background-color", makeRGB(payload.palette[1]));
-            $("#third").css("background-color", makeRGB(payload.palette[5]));
-        }
-    });
 
     window.onload = function () {
-
+        getColor();
         //选择图片事件
         document.getElementById('file').onchange = function () {
             var img = event.target.files[0];
@@ -101,7 +85,7 @@
             }
 
             // 检查图片尺寸
-            if (img.size > 120 * 1024) {
+            if (img.size > 12000 * 1024) {
                 alert('图片不能大于120K');
                 return;
             }
@@ -112,11 +96,46 @@
 
             // reader onload start
             reader.onload = function (e) {
+                console.log(e);
+                document.getElementById('imgDemo').src = e.target.result;
 
-
+                getColor();
             }
         }
     }
+
+
+    var makeRGB = function (name) {
+        return ['rgb(', name, ')'].join('');
+    };
+
+    function getColor() {
+        RGBaster.colors(imgDom, {
+            exclude: [],
+            success: function (payload) {
+                // payload.dominant是主色，RGB形式表示
+                // payload.secondary是次色，RGB形式表示
+                // payload.palette是调色板，含多个主要颜色，数组
+                console.log(payload.dominant);
+                console.log(payload.secondary);
+                console.log(payload.palette);
+
+                // $("#logo").css("background-color", makeRGB(payload.dominant + ',0.1'));
+                document.getElementById('logo').style.backgroundColor = makeRGB(payload.dominant + ',0.1');
+
+                let _htmlDom = '';
+                //foreach
+                for (let index in payload.palette) {
+                    console.log(index);
+                    _htmlDom += `<div class="colorItem" style="background-color: rgba(${payload.palette[index]})"> ${index} </div>`
+                }
+
+                document.getElementById('colorLists').innerHTML = _htmlDom;
+
+            }
+        });
+    }
+
 </script>
 
 </body>

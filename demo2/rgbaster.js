@@ -131,7 +131,7 @@
 
 
     var RGBaster = {
-        PALETTESIZE: 30,
+        PALETTESIZE: 10,
         backColorRange: {
             ratio: 0.1,
             bias: 15,
