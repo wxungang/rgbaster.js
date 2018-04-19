@@ -160,7 +160,8 @@
                     dominant: {name: '', count: 0},
                     palette: []
                 };
-            let _backColorRangeArr = backColorRange(fmtImgData(data)).name.split(',');
+            //获取 图片背景色
+            let _backColorRangeArr = exclude.length ? exclude : [backColorRange(fmtImgData(data)).name];
             let _bias = RGBaster.backColorRange.bias;
             var i = 0;
             for (; i < data.length; i += 4) {
@@ -176,12 +177,21 @@
                 }
 
                 //skip background color range
-                if ((Math.abs(_backColorRangeArr[0] - data[i]) < _bias && Math.abs(_backColorRangeArr[1] - data[i + 1]) < _bias && Math.abs(_backColorRangeArr[2] - data[i + 2]) < _bias)) {
-                    // console.log(rgbString)
-                   continue;
+                let isBackColorRangeFlag = false;
+                for (let color of _backColorRangeArr) {
+                    let _color = color.split(',');
+                    if ((Math.abs(_color[0] - data[i]) < _bias && Math.abs(_color[1] - data[i + 1]) < _bias && Math.abs(_color[2] - data[i + 2]) < _bias)) {
+                        // console.log(rgbString)
+                        isBackColorRangeFlag = true;
+                        break;
+                    }
                 }
+                if(isBackColorRangeFlag){
+                    continue;
+                }
+
                 // Ignore those colors in the exclude list.
-                if (exclude.indexOf(makeRGB(rgbString)) === -1) {
+                if (exclude.indexOf(rgbString) === -1) {
                     //计数
                     if (rgbString in colorCounts) {
                         colorCounts[rgbString] = colorCounts[rgbString] + 1;

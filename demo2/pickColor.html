@@ -111,7 +111,7 @@
 
     function getColor() {
         RGBaster.colors(imgDom, {
-            exclude: [],
+            exclude: ['255,255,255'],//需要去除的颜色 模糊（不提供时会主动提取背景色！）
             success: function (payload) {
                 // payload.dominant是主色，RGB形式表示
                 // payload.secondary是次色，RGB形式表示
